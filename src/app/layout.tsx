@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Finance Tracker",
-  description: "A simple finance tracker",
+  title: "instant share",
+  description: "A file sharing platform",
 };
 
 export default function RootLayout({
