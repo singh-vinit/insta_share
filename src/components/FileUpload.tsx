@@ -1,6 +1,7 @@
 "use client";
-import { useState, useRef } from "react";
+import React, { useState, SetStateAction } from "react";
 import { supabase } from "@/utils/supabaseClient";
+import { generateQr } from "@/utils/generateQr";
 
 //svgs
 const CirclePlus = () => {
@@ -48,10 +49,15 @@ export const CancelIcon = () => {
   );
 };
 
-function FileUpload() {
+interface Props {
+  setUrl: React.Dispatch<SetStateAction<string>>;
+  setQrUrl: React.Dispatch<SetStateAction<string>>;
+  setOpen: React.Dispatch<SetStateAction<boolean>>;
+}
+
+function FileUpload({ setUrl, setQrUrl, setOpen }: Props) {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [url, setUrl] = useState("");
   const [isFile, setIsFile] = useState(false);
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -77,10 +83,15 @@ function FileUpload() {
       alert("upload failed");
       console.log(error);
     } else {
-      const { data } = supabase.storage.from("instant-share").getPublicUrl(filePath);
+      const { data } = supabase.storage
+        .from("instant-share")
+        .getPublicUrl(filePath);
+      const qr = await generateQr(data.publicUrl);
       setUrl(data.publicUrl);
+      setQrUrl(qr as string);
+      setUploading(false);
+      setOpen(true);
     }
-    setUploading(false);
   }
 
   const size = file?.size;
