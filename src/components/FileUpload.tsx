@@ -69,19 +69,18 @@ function FileUpload() {
 
   async function handleUpload() {
     setUploading(true);
-    const filePath = `public/${file?.name}`;
+    const filePath = `${Date.now()}-${file?.name}`;
     const { data, error } = await supabase.storage
       .from("instant-share")
-      .upload(filePath, file as File, { upsert: true });
+      .upload(filePath, file as File);
     if (error) {
       alert("upload failed");
       console.log(error);
     } else {
-      const { data } = await supabase.storage
-        .from("instant-share")
-        .getPublicUrl(filePath);
+      const { data } = supabase.storage.from("instant-share").getPublicUrl(filePath);
       setUrl(data.publicUrl);
     }
+    setUploading(false);
   }
 
   const size = file?.size;
@@ -93,8 +92,6 @@ function FileUpload() {
       fileSize = `${(size / 1000000).toFixed(2)} MB`;
     }
   }
-
-  console.log(file);
 
   return (
     <div className="text-center">
