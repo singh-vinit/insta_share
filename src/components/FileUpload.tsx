@@ -76,26 +76,30 @@ function FileUpload({ setUrl, setQrUrl, setOpen }: Props) {
   async function handleUpload() {
     setUploading(true);
     const filePath = `${Date.now()}-${file?.name}`;
-    const { error } = await supabase.storage.from("instant-share").upload(filePath, file as File);
+    const { error } = await supabase.storage
+      .from("instant-share")
+      .upload(filePath, file as File);
     if (error) {
       alert("upload failed");
       console.log(error);
     } else {
-      const { data } = supabase.storage.from("instant-share").getPublicUrl(filePath);
+      const { data } = supabase.storage
+        .from("instant-share")
+        .getPublicUrl(filePath);
       // get the custom shorten url
-      const res = await fetch("http://localhost:3000/api/short_url", {
+      const res = await fetch("/api/short_url", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ originalUrl: data.publicUrl }),
+        body: JSON.stringify({ originalUrl: data.publicUrl, filePath: filePath }),
       });
-      console.log(res);
-      // const qr = await generateQr();
-      // setUrl(data.publicUrl);
-      // setQrUrl(qr as string);
-      // setUploading(false);
-      // setOpen(true);
+      const result: { short_url: string } = await res.json();
+      const qr = await generateQr(result.short_url);
+      setUrl(result.short_url);
+      setQrUrl(qr as string);
+      setUploading(false);
+      setOpen(true);
     }
   }
 
