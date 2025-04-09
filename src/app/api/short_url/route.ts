@@ -10,14 +10,17 @@ export async function POST(req: NextRequest) {
     console.log("shortid ->", shortid);
     const { error } = await supabase
       .from("urls")
-      .insert([{original_url: originalUrl, short_id: shortid, file_path: filePath}]);
+      .insert([
+        { original_url: originalUrl, short_id: shortid, file_path: filePath },
+      ]);
     if (error) {
       console.log(error);
       return NextResponse.json({ error: "database error!" }, { status: 500 });
     }
-    const shortUrl = `https://insta-share.vercel.app/${shortid}`;
+    const shortUrl = `${process.env.NEXT_PUBLIC_DEPLOY_URL}/${shortid}`;
     return NextResponse.json({ short_url: shortUrl }, { status: 200 });
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { error: "internal server error" },
       { status: 500 }

@@ -2,6 +2,7 @@
 import React, { useState, SetStateAction } from "react";
 import { supabase } from "@/utils/supabaseClient";
 import { generateQr } from "@/utils/generateQr";
+import Loader from "./Loader";
 
 //svgs
 const CirclePlus = () => {
@@ -154,10 +155,11 @@ function FileUpload({ setUrl, setQrUrl, setOpen }: Props) {
           </div>
         )}
       </div>
+      {uploading ? <Loader /> : null}
       {isFile ? (
         <button
           onClick={handleUpload}
-          className="bg-orange-500 px-6 py-2 rounded-xl mt-4 text-white font-medium text-lg shadow-lg hover:scale-105"
+          className={`bg-orange-500 px-6 py-2 rounded-xl mt-4 text-white font-medium text-lg shadow-lg hover:scale-105 ${uploading ? "hidden" : null}`}
         >
           upload
         </button>

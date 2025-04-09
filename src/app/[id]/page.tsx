@@ -1,13 +1,14 @@
-import { redirect, notFound } from "next/navigation";
+import { notFound } from "next/navigation";
 import { supabase } from "@/utils/supabaseClient";
 import DownloadBtn from "@/components/DownloadBtn";
 
-interface Params {
-  params: { id: string };
+interface PageProps {
+  params: Promise<{ id: string }>;
 }
 
-export default async function Page({ params }: Params) {
+export default async function Page({ params }: PageProps) {
   const { id } = await params;
+  console.log(id);
   const { data } = await supabase
     .from("urls")
     .select("original_url, file_path")
