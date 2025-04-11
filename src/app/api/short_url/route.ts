@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
       console.log(error);
       return NextResponse.json({ error: "database error!" }, { status: 500 });
     }
-    const shortUrl = `${process.env.NEXT_PUBLIC_DEPLOY_URL}/${shortid}`;
+    const shortUrl = `https://insta-share-file.vercel.app/${shortid}`;
     return NextResponse.json({ short_url: shortUrl }, { status: 200 });
   } catch (error) {
     console.log(error);

@@ -115,8 +115,8 @@ function FileUpload({ setUrl, setQrUrl, setOpen }: Props) {
   }
 
   return (
-    <div className="text-center">
-      <div className="w-[20rem] h-[18rem] bg-[#42424a] rounded-2xl p-4 shadow-xl">
+    <div className="text-center z-10">
+      <div className="w-[20rem] h-[18rem] bg-white/5 rounded-2xl p-4 shadow-xl">
         <input
           id="file-upload"
           className="hidden"
@@ -159,7 +159,7 @@ function FileUpload({ setUrl, setQrUrl, setOpen }: Props) {
       {isFile ? (
         <button
           onClick={handleUpload}
-          className={`bg-orange-500 px-6 py-2 rounded-xl mt-4 text-white font-medium text-lg shadow-lg hover:scale-105 ${uploading ? "hidden" : null}`}
+          className={`bg-orange-500 cursor-pointer px-6 py-2 rounded-xl mt-4 text-white font-medium text-lg shadow-lg hover:scale-105 hover:bg-orange-600 transition-all duration-200 ease-in-out ${uploading ? "hidden" : null}`}
         >
           upload
         </button>
