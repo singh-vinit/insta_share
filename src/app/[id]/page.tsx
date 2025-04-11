@@ -18,13 +18,24 @@ export default async function Page({ params }: PageProps) {
     notFound(); //404 page
   }
   const res = await supabase.storage.from("instant-share").info(data.file_path);
+
+  const size = res.data?.size;
+  let fileSize;
+  if (size) {
+    if (size.toString().length <= 6) {
+      fileSize = `${(size / 1000).toFixed(2)} KB`;
+    } else {
+      fileSize = `${(size / 1000000).toFixed(2)} MB`;
+    }
+  }
+
   return (
-    <div className="min-h-screen min-w-screen flex justify-center items-center bg-red-500">
-      <div className="w-xl p-4 bg-white/5 border border-orange-500 rounded-2xl">
-        <p>{res.data?.name}</p>
+    <div className="min-h-screen min-w-screen flex justify-center items-center bg-neutral-800">
+      <div className="w-xl p-4 bg-white/20 rounded-xl">
+        <p className="text-white font-medium">{res.data?.name}</p>
         <div className="flex justify-between items-center">
-          <p>{res.data?.contentType}</p>
-          <p>{res.data?.size}</p>
+          <p className="text-white font-medium">{res.data?.contentType}</p>
+          <p className="text-white font-medium">{fileSize}</p>
         </div>
         <DownloadBtn
           original_url={data.original_url}

@@ -22,7 +22,7 @@ export default function DownloadBtn({ original_url, content_type }: Props) {
     <div className="text-center pt-4">
       <button
         onClick={downloadBlob}
-        className="px-4 py-1 bg-blue-500 text-white text-sm font-medium"
+        className="cursor-pointer px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-md text-white text-sm font-medium"
       >
         download
       </button>
