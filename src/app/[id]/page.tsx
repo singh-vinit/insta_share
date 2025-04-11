@@ -20,7 +20,7 @@ export default async function Page({ params }: PageProps) {
   const res = await supabase.storage.from("instant-share").info(data.file_path);
   return (
     <div className="min-h-screen min-w-screen flex justify-center items-center bg-red-500">
-      <div className="w-xl p-4 bg-neutral-400 rounded-2xl">
+      <div className="w-xl p-4 bg-white/5 border border-orange-500 rounded-2xl">
         <p>{res.data?.name}</p>
         <div className="flex justify-between items-center">
           <p>{res.data?.contentType}</p>
